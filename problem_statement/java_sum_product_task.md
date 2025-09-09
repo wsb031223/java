@@ -15,7 +15,7 @@ For a given list of integers, return a tuple consisting of a sum and a product o
 
 >>> sumProduct(Arrays.asList(1, 2, 3, 4))
 [10, 24]
-
+```
 ### Code Implementation Logic
 
 1. **Initialize Variables**:
