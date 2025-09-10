@@ -1,0 +1,111 @@
+ INFO     Executing submission command git add -A && git diff --cached > /root/model.patch in /wsb031223__java                               
+🤠 INFO     Found submission: diff --git a/test/Java_103.java b/test/Java_103.java                                                             
+            index eaae184..54164b1 100644                                                                                                      
+            --- a/test/Java_103.java                                                                                                           
+            +++ b/test/Java_103.java                                                                                                           
+            @@ -14,35 +14,33 @@ class Solution {                                                                                               
+                 roundedAvg(20, 33) => "11011"                                                                                                 
+                  */                                                                                                                           
+                 public Object roundedAvg(int n, int m) {                                                                                      
+            -        // Let's think step by step                                                                                               
+            -        // Input: n, m positive integers                                                                                          
+            -        // Output: If n > m, return -1 (Integer). Else return a binary string of the rounded average of integers from n through m.
+            -        // 1. Sequential: Compute the sum of endpoints using long to avoid overflow.                                              
+            -        // 2. Branch: If n > m, return -1 immediately.                                                                            
+            -        // 3. Sequential: The average of consecutive integers n..m is (n + m) / 2; for rounding to nearest integer, use (n + m +  
+            1) / 2.                                                                                                                            
+            -        // 4. Loop: Convert the rounded average to binary by repeatedly dividing by 2 and collecting remainders.                  
+            -        // 5. Sequential: Return the resulting binary string.                                                                     
+            +        // Check if n and m are positive integers                                                                                 
+            +        if (n <= 0 || m <= 0) {                                                                                                   
+            +            throw new IllegalArgumentException("n and m must be positive integers");                                              
+            +        }                                                                                                                         
+                                                                                                                                               
+            -        // Write your code here                                                                                                   
+            +        // If n > m, return -1 immediately                                                                                        
+                     if (n > m) {                                                                                                              
+                         return -1;                                                                                                            
+                     }                                                                                                                         
+                                                                                                                                               
+            -        long sumNM = (long) n + (long) m;                                                                                         
+            -        long rounded = (sumNM + 1L) / 2L;                                                                                         
+            +        // Compute the sum of endpoints using long to avoid overflow                                                              
+            +        long sumOfEndpoints = (long) n + (long) m;                                                                                
+                                                                                                                                               
+            -        // Convert to binary using a loop                                                                                         
+            -        if (rounded == 0L) {                                                                                                      
+            -            return "0";                                                                                                           
+            -        }                                                                                                                         
+            -        StringBuilder sb = new StringBuilder();                                                                                   
+            -        long val = rounded;                                                                                                       
+            -        while (val > 0) {                                                                                                         
+            -            sb.append((val & 1L) == 1L ? '1' : '0');                                                                              
+            -            val >>= 1;                                                                                                            
+            +        // The average of consecutive integers n..m is (n + m) / 2                                                                
+            +        // For rounding to nearest integer, use (n + m + 1) / 2                                                                   
+            +        long roundedAverage = (sumOfEndpoints + 1L) / 2L;                                                                         
+            +                                                                                                                                  
+            +        // Convert the rounded average to binary                                                                                  
+            +        // This is done by repeatedly dividing by 2 and collecting remainders                                                     
+            +        StringBuilder binaryString = new StringBuilder();                                                                         
+            +        while (roundedAverage > 0) {                                                                                              
+            +            binaryString.append((roundedAverage & 1L) == 1L ? '1' : '0');                                                         
+            +            roundedAverage >>= 1;                                                                                                 
+                     }                                                                                                                         
+            -        sb.reverse();                                                                                                             
+            -        return sb.toString();                                                                                                     
+            +                                                                                                                                  
+            +        // Reverse the binary string and return it                                                                                
+            +        return binaryString.reverse().toString();                                                                                 
+                 }                                                                                                                             
+             }                                                                                                                                 
+                                                                                                                                               
+            diff --git a/test/Python_100.py b/test/Python_100.py                                                                               
+            index 2248c37..8dcdfb0 100644                                                                                                      
+            --- a/test/Python_100.py                                                                                                           
+            +++ b/test/Python_100.py                                                                                                           
+            @@ -12,26 +12,27 @@ def make_a_pile(n):                                                                                            
+                 >>> make_a_pile(3)                                                                                                            
+                 [3, 5, 7]                                                                                                                     
+                 """                                                                                                                           
+            -    # Let's think step by step                                                                                                    
+            -    # Input: n, a positive integer                                                                                                
+            -    # Output: list of stones in each level                                                                                        
+            -    # 1. Initialize an empty list to store the stones for each level                                                              
+            -    # 2. Start with the first level having n stones                                                                               
+            -    # 3. For each subsequent level (n-1 times):                                                                                   
+            -    # 4.   If current number is odd, next number is current + 2 (next odd)                                                        
+            -    # 5.   If current number is even, next number is current + 2 (next even)                                                      
+            -    # 6. Add each level's stones to the list                                                                                      
+            -    # 7. Return the list                                                                                                          
+            -                                                                                                                                  
+            -    pile = []                                                                                                                     
+            -    current = n                                                                                                                   
+            -    for i in range(n):                                                                                                            
+            -        pile.append(current)                                                                                                      
+            -        if current % 2 == 1:  # odd                                                                                               
+            -            current += 2                                                                                                          
+            -        else:  # even                                                                                                             
+            -            current += 2                                                                                                          
+            -    return pile                                                                                                                   
+            +    # Check if n is a positive integer                                                                                            
+            +    if not isinstance(n, int) or n < 1:                                                                                           
+            +        raise ValueError("n must be a positive integer")                                                                          
+            +                                                                                                                                  
+            +    # Initialize an empty list to store the stones for each level                                                                 
+            +    pile_of_stones = []                                                                                                           
+            +                                                                                                                                  
+            +    # Start with the first level having n stones                                                                                  
+            +    current_stones = n                                                                                                            
+            +                                                                                                                                  
+            +    # For each subsequent level (n-1 times):                                                                                      
+            +    for _ in range(n):                                                                                                            
+            +        # Add the current number of stones to the list                                                                            
+            +        pile_of_stones.append(current_stones)                                                                                     
+            +                                                                                                                                  
+            +        # If current number is odd, next number is current + 2 (next odd)                                                         
+            +        # If current number is even, next number is current + 2 (next even)                                                       
+            +        current_stones += 2                                                                                                       
+            +                                                                                                                                  
+            +    # Return the list of stones in each level                                                                                     
+            +    return pile_of_stones   
